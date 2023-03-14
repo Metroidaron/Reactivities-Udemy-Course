@@ -11,5 +11,8 @@
   },
   "[csharp]": {
     "editor.formatOnSave": true
-  }
+  },
+  "cSpell.words": [
+    "Mediat"
+  ]
 }
