@@ -15,6 +15,7 @@ export interface iProps {
   closeForm: () => void;
   createOrEdit: (a: Activity) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
 
 export default function ActivityDashboard(props: iProps) {
@@ -24,7 +25,8 @@ export default function ActivityDashboard(props: iProps) {
         <ActivityList 
           activities={props.activities} 
           selectActivity={props.selectActivity}
-          deleteActivity={props.deleteActivity} />
+          deleteActivity={props.deleteActivity}
+          submitting={props.submitting} />
       </Grid.Column>
       <Grid.Column width="6">
         {props.selectedActivity && 
@@ -33,7 +35,7 @@ export default function ActivityDashboard(props: iProps) {
             cancelSelectActivity={props.cancelSelectActivity}
             openForm={props.openForm} /> 
         }
-        {props.editMode && <ActivityForm activity={props.selectedActivity} createOrEdit={props.createOrEdit} closeForm={props.closeForm} /> }
+        {props.editMode && <ActivityForm activity={props.selectedActivity} createOrEdit={props.createOrEdit} closeForm={props.closeForm} submitting={props.submitting} /> }
       </Grid.Column>
     </Grid>
   </>;
