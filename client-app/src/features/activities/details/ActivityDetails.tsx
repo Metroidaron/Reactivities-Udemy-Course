@@ -19,7 +19,7 @@ export default observer(function ActivityDetails(props: iProps) {
     if(id) {
       activityStore.loadActivity(id);
     }
-  }, [id, activityStore.loadActivity])
+  }, [id, activityStore, activityStore.loadActivity])
 
   if(activityStore.loadingInitial || !activityStore.selectedActivity) {
     return <LoadingComponent />

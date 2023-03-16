@@ -1,5 +1,7 @@
 using Application.Activities;
 using Application.Core;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -22,7 +24,8 @@ namespace API.Extensions {
             // CORS support for our Frontend
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    // policy.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
 
@@ -31,6 +34,10 @@ namespace API.Extensions {
 
             // AutoMapper Helper Package
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+            // Fluent Validation
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<Create>();
 
             return services;
         }

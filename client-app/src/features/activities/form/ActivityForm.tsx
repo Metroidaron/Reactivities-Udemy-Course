@@ -43,7 +43,7 @@ export default observer(function ActivityForm (props: iProps) {
     if(id) {
       activityStore.loadActivity(id).then(activity => setActivity(activity!))
     }
-  },[id, activityStore.loadActivity]);
+  },[id, activityStore, activityStore.loadActivity]);
 
   if(activityStore.loadingInitial) return <LoadingComponent />
 
