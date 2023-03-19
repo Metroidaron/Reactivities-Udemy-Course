@@ -38,8 +38,8 @@ namespace API.Controllers {
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto) {
-            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.UserName)) {
-                ModelState.AddModelError("UserName", "UserName is already taken");
+            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.username)) {
+                ModelState.AddModelError("username", "username is already taken");
                 return ValidationProblem();
             }
 
@@ -51,7 +51,7 @@ namespace API.Controllers {
             var user = new AppUser {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
-                UserName = registerDto.UserName
+                UserName = registerDto.username
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -61,7 +61,7 @@ namespace API.Controllers {
                     DisplayName = user.DisplayName,
                     // Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
                     Token = _tokenService.CreateToken(user),
-                    UserName = user.UserName
+                    username = user.UserName
                 };
             }
 
@@ -80,7 +80,7 @@ namespace API.Controllers {
                 DisplayName = user.DisplayName,
                 // Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
                 Token = _tokenService.CreateToken(user),
-                UserName = user.UserName
+                username = user.UserName
             };
         }
 
