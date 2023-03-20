@@ -34,7 +34,7 @@ export default observer(function ActivityDetails(props: iProps) {
       </Grid.Column>
 
       <Grid.Column width={6}>
-        <ActivityDetailedSideBar />
+        <ActivityDetailedSideBar activity={activityStore.selectedActivity!} />
       </Grid.Column>
     </Grid>
   </>

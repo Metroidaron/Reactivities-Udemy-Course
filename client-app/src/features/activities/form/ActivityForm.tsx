@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Header, Segment } from 'semantic-ui-react';
 import { LoadingComponent } from '../../../app/layout/LoadingComponent';
-import { Activity } from '../../../app/models/activity';
+import { ActivityFormValues } from '../../../app/models/activity';
 import { useStore } from '../../../app/stores/store';
 import {v4 as uuid} from 'uuid';
 import { Formik, Form } from 'formik';
@@ -17,20 +17,12 @@ import MyDateInput from '../../../app/common/form/MyDateInput';
 export interface iProps {}
 
 export default observer(function ActivityForm (props: iProps) {
-  const [activity, setActivity] = React.useState<Activity>({
-    id: '',
-    title: '',
-    category: '',
-    description: '',
-    date: undefined,
-    city: '',
-    venue: ''
-  });
+  const [activity, setActivity] = React.useState<ActivityFormValues>(new ActivityFormValues());
   const {activityStore} = useStore();
   const {id} = useParams();
   const navigate = useNavigate();
 
-  const handleSubmit = async (activity: Activity) => {
+  const handleSubmit = async (activity: ActivityFormValues) => {
     if(!activity.id) {
       activity.id = uuid();
       await activityStore.createActivity(activity);
@@ -52,7 +44,7 @@ export default observer(function ActivityForm (props: iProps) {
 
   React.useEffect(()=>{
     if(id) {
-      activityStore.loadActivity(id).then(activity => setActivity(activity!))
+      activityStore.loadActivity(id).then(activity => setActivity(new ActivityFormValues()))
     }
   },[id, activityStore, activityStore.loadActivity]);
 
@@ -81,7 +73,7 @@ export default observer(function ActivityForm (props: iProps) {
             <Header content="Location Details" color="teal" />
             <MyTextInput placeholder="City" name="city" />
             <MyTextInput placeholder="Venue" name="venue" />
-            <Button loading={activityStore.loading} 
+            <Button loading={isSubmitting} 
               disabled={isSubmitting || !dirty || !isValid}
               content="Submit" 
               floated='right' 
@@ -90,7 +82,7 @@ export default observer(function ActivityForm (props: iProps) {
             <Button 
               content="Cancel"
               as={Link} to="/activities"
-              disabled={activityStore.loading} 
+              disabled={isSubmitting} 
               floated='right' 
               positive 
               type="button" />
