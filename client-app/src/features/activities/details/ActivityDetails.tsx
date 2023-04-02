@@ -16,10 +16,9 @@ export default observer(function ActivityDetails(props: iProps) {
   const { id } = useParams();
 
   React.useEffect(()=>{
-    if(id) {
-      activityStore.loadActivity(id);
-    }
-  }, [id, activityStore, activityStore.loadActivity])
+    if(id) activityStore.loadActivity(id);
+    return () => activityStore.clearSelectedActivity();
+  }, [id, activityStore, activityStore.loadActivity, activityStore.clearSelectedActivity])
 
   if(activityStore.loadingInitial || !activityStore.selectedActivity) {
     return <LoadingComponent />
@@ -30,7 +29,7 @@ export default observer(function ActivityDetails(props: iProps) {
       <Grid.Column width={10}>
         <ActivityDetailedHeader activity={activityStore.selectedActivity} />
         <ActivityDetailedInfo activity={activityStore.selectedActivity} />
-        <ActivityDetailedChat />
+        <ActivityDetailedChat activityId={activityStore.selectedActivity.id} />
       </Grid.Column>
 
       <Grid.Column width={6}>
